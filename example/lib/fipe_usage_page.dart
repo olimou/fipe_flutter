@@ -2,6 +2,7 @@ import 'package:example/indexed_iterable_extension.dart';
 import 'package:fipe_flutter/fipe_flutter.dart';
 import 'package:fipe_flutter/models/marca_modelo_model.dart';
 import 'package:fipe_flutter/models/modelo_completo_model.dart';
+import 'package:fipe_flutter/models/referencia_model.dart';
 import 'package:flutter/material.dart';
 
 class FipeUsagePage extends StatefulWidget {
@@ -14,6 +15,7 @@ class _FipeUsagePageState extends State<FipeUsagePage> {
   bool loading = false;
   bool error = false;
 
+  String referenciaTabela = "";
   List<MarcaModeloModel> marcas = [];
   MarcaModeloModel? marcaSelecionada;
 
@@ -42,7 +44,10 @@ class _FipeUsagePageState extends State<FipeUsagePage> {
       modeloDetalhado = null;
     });
     try {
+      var reference = await fipeApi.consultarReferencia();
+      referenciaTabela = reference.first.codigo ?? "";
       var list = await fipeApi.consultarMarcas(
+        referenciaTabela: referenciaTabela ?? "261",
         tipoVeiculo: "1",
       );
       setState(() => marcas = list);
@@ -63,6 +68,7 @@ class _FipeUsagePageState extends State<FipeUsagePage> {
     });
     try {
       var list = await fipeApi.consultarModelos(
+        referenciaTabela: referenciaTabela,
         tipoVeiculo: "1",
         codigoMarca: marcaSelecionada?.value ?? "",
       );
@@ -83,6 +89,7 @@ class _FipeUsagePageState extends State<FipeUsagePage> {
     });
     try {
       var list = await fipeApi.consultarAnoModelo(
+        referenciaTabela: referenciaTabela,
         tipoVeiculo: "1",
         codigoMarca: marcaSelecionada?.value ?? "",
         codigoModelo: modeloSelecionado?.value ?? "",
@@ -103,11 +110,12 @@ class _FipeUsagePageState extends State<FipeUsagePage> {
       final anoCombustivel = modeloAnoSelecionado?.value?.split('-');
 
       var modeloModel = await fipeApi.consultarValorComTodosParametros(
+        referenciaTabela: referenciaTabela,
         tipoVeiculo: "1",
         codigoMarca: marcaSelecionada?.value ?? "",
         codigoModelo: modeloSelecionado?.value ?? "",
-        codigoTipoCombustivel: anoCombustivel?[1] ?? "",
-        anoModelo: anoCombustivel?[0] ?? "",
+        anoModelo: anoCombustivel?[1] ?? "",
+        codigoTipoCombustivel: anoCombustivel?[0] ?? "",
       );
       setState(() => modeloDetalhado = modeloModel);
     } catch (e) {

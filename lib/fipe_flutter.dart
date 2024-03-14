@@ -5,21 +5,34 @@ import 'dart:convert' as convert;
 import 'package:dio/dio.dart';
 import 'package:fipe_flutter/models/marca_modelo_model.dart';
 import 'package:fipe_flutter/models/modelo_completo_model.dart';
+import 'package:fipe_flutter/models/referencia_model.dart';
 
 class FipeApi {
   late Dio client;
 
   static const basePath = 'veiculos.fipe.org.br';
   static const apiPath = "/api/veiculos";
-  static const referenciaTabela = '266';
 
   FipeApi({Dio? client}) {
     this.client = client ?? Dio();
   }
 
+  Future<List<ReferenciaModel>> consultarReferencia() async {
+    const referenciaApi = '/ConsultarTabelaDeReferencia';
+
+    var response = await client.postUri(
+      Uri.https(basePath, apiPath + referenciaApi),
+    );
+    if (response.statusCode != 200)
+      return throw '[ConsultarTabelaDeReferencia] Algo de errado não está certo';
+
+    List references = response.data;
+    return references.map((e) => ReferenciaModel.fromJson(e)).toList();
+  }
+
   Future<List<MarcaModeloModel>> consultarMarcas({
+    required String referenciaTabela,
     required String tipoVeiculo,
-    Options? options,
   }) async {
     const marcasApi = '/ConsultarMarcas';
 
@@ -38,6 +51,7 @@ class FipeApi {
   }
 
   Future<List<MarcaModeloModel>> consultarModelos({
+    required String referenciaTabela,
     required String tipoVeiculo,
     required String codigoMarca,
     Options? options,
@@ -59,6 +73,7 @@ class FipeApi {
   }
 
   Future<List<MarcaModeloModel>> consultarAnoModelo({
+    required String referenciaTabela,
     required String tipoVeiculo,
     required String codigoMarca,
     required String codigoModelo,
@@ -82,6 +97,7 @@ class FipeApi {
   }
 
   Future<List<MarcaModeloModel>> consultarModelosAtravesDoAno({
+    required String referenciaTabela,
     required String tipoVeiculo,
     required String codigoMarca,
     required String codigoModelo,
@@ -111,6 +127,7 @@ class FipeApi {
   }
 
   Future<ModeloModel> consultarValorComTodosParametros({
+    required String referenciaTabela,
     required String tipoVeiculo,
     required String codigoMarca,
     required String codigoModelo,

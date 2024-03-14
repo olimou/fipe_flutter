@@ -19,6 +19,7 @@ void main() {
 
   test('Requisição: ConsultarMarcas ', () async {
     var expectedMarcas = await fipeApi.consultarMarcas(
+      referenciaTabela: referenciaTabela,
       tipoVeiculo: tipoVeiculo,
       options: options,
     );
@@ -27,6 +28,7 @@ void main() {
 
   test('Requisição: ConsultarModelos', () async {
     var expectedVeiculos = await fipeApi.consultarModelos(
+      referenciaTabela: referenciaTabela,
       tipoVeiculo: tipoVeiculo,
       codigoMarca: codigoMarca,
       options: options,
@@ -36,6 +38,7 @@ void main() {
 
   test('Requisição: ConsultarAnoModelo ', () async {
     var expectedVeiculos = await fipeApi.consultarAnoModelo(
+      referenciaTabela: referenciaTabela,
       tipoVeiculo: tipoVeiculo,
       codigoMarca: codigoMarca,
       codigoModelo: codigoModelo,
@@ -46,6 +49,7 @@ void main() {
 
   test('Requisição: ConsultarModelosAtravesDoAno ', () async {
     var expectedVeiculos = await fipeApi.consultarModelosAtravesDoAno(
+      referenciaTabela: referenciaTabela,
       tipoVeiculo: tipoVeiculo,
       codigoMarca: codigoMarca,
       codigoModelo: codigoModelo,
@@ -59,6 +63,7 @@ void main() {
 
   test('Requisição: ConsultarValorComTodosParametros ', () async {
     var expectedVeiculos = await fipeApi.consultarValorComTodosParametros(
+      referenciaTabela: referenciaTabela,
       tipoVeiculo: tipoVeiculo,
       codigoMarca: codigoMarca,
       codigoModelo: codigoModelo,
