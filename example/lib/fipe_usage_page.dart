@@ -114,8 +114,8 @@ class _FipeUsagePageState extends State<FipeUsagePage> {
         tipoVeiculo: "1",
         codigoMarca: marcaSelecionada?.value ?? "",
         codigoModelo: modeloSelecionado?.value ?? "",
-        anoModelo: anoCombustivel?[1] ?? "",
-        codigoTipoCombustivel: anoCombustivel?[0] ?? "",
+        codigoTipoCombustivel: anoCombustivel?[1] ?? "",
+        anoModelo: anoCombustivel?[0] ?? "",
       );
       setState(() => modeloDetalhado = modeloModel);
     } catch (e) {

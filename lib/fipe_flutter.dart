@@ -1,7 +1,5 @@
 library fipe_flutter;
 
-import 'dart:convert' as convert;
-
 import 'package:dio/dio.dart';
 import 'package:fipe_flutter/models/marca_modelo_model.dart';
 import 'package:fipe_flutter/models/modelo_completo_model.dart';
@@ -17,7 +15,9 @@ class FipeApi {
     this.client = client ?? Dio();
   }
 
-  Future<List<ReferenciaModel>> consultarReferencia() async {
+  Future<List<ReferenciaModel>> consultarReferencia({
+    Options? options,
+  }) async {
     const referenciaApi = '/ConsultarTabelaDeReferencia';
 
     var response = await client.postUri(
@@ -33,6 +33,7 @@ class FipeApi {
   Future<List<MarcaModeloModel>> consultarMarcas({
     required String referenciaTabela,
     required String tipoVeiculo,
+    Options? options,
   }) async {
     const marcasApi = '/ConsultarMarcas';
 
